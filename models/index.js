@@ -13,6 +13,7 @@ Category.hasMany(Product, { foreignKey: 'category_id' });
 
   //!Note also how we create the joined table by hand, we did not create the table through a join
 // Products belongToMany Tags (through ProductTag)
+//! 'Through' here means that there is a join table (same thing as a junction table) already created that contains both data. We want to use this for better queries. 
 Product.belongsToMany(Tag, { through: ProductTag });
 
 // Tags belongToMany Products (through ProductTag)

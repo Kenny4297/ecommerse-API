@@ -10,10 +10,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
+//! Keep in mind that you need to run 'npm run seed' whenever you see a seed file!!!
+
 // sync sequelize models to the database, then turn on the server
 sequelize.sync().then(() => {
-  app.listen(PORT, () => console.log('Now listening'));
+  app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
 });
-// app.listen(PORT, () => {
-//   console.log(`App listening on port ${PORT}!`);
-// });
