@@ -18,10 +18,10 @@
   A CLI database management application.
 
   ### Installation
-  Run 'npm install' from the root folder. Make sure you have MySQL Workbench installed as well.
+  Run 'npm install' from the root folder. Make sure you have MySQL Workbench along with SQL database installed as well. 
 
   ### Usage
-  Create a database on MySQL workbench called 'ecommmerce' (yes, with 3 'm's). Then in the root folder run "npm run seed". After that, from the root folder you can run "npm server.js"
+  --Await Tutor instructions--
 
   ### Licenses
   MIT
