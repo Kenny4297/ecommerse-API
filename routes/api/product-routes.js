@@ -38,6 +38,12 @@ router.get('/:id', async (req, res) => {
 
 // create new product
 router.post('/', async (req, res) => {
+  // {
+  //   product_name: "Basketball",
+  //   price: 200.00,
+  //   stock: 3,
+  //   tagIds: 8
+  // }
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -51,9 +57,9 @@ router.post('/', async (req, res) => {
         return ProductTag.bulkCreate(productTagIdArr);
       }
       // if no product tags, just respond
-      res.status(200).json(product);
+      res.status(201).json(product);
     })
-    .then((productTagIds) => res.status(200).json(productTagIds))
+    .then((productTagIds) => res.status(201).json(productTagIds))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
@@ -61,8 +67,9 @@ router.post('/', async (req, res) => {
 });
 
 // update product
-router.put('/:id', async (req, res) => {
+router.put('/:id', (req, res) => {
   // update product data
+  console.log("Test test")
   Product.update(req.body, {
     where: {
       id: req.params.id,
@@ -105,12 +112,12 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   try {
-    const deleteData = await Product.destroy({
+    const deleteProduct = await Product.destroy({
       where: {
         id: req.params.id
       }
     });
-    res.status(202).json(deleteData);
+    res.status(202).json(deleteProduct);
   } catch (err) {
     res.status(400).json(err);
   }

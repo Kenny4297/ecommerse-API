@@ -22,16 +22,16 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Products
   try {
     //We use the params supplied by the user to find the specific parameter id. We also must include the product as well due to the relationship between category and product (category_id)
-    const getSpecificData = await Category.findByPk(req.params.id, {
+    const getSpecificCategory = await Category.findByPk(req.params.id, {
       include: [Product]
     });
     //If no category is found:
-    if (!getSpecificData) {
+    if (!getSpecificCategory) {
       res.status(404).json({ message: 'Category ID not found!' });
       return;
     }
     //If a category is found, we return that data
-    res.status(200).json(getSpecificData);
+    res.status(200).json(getSpecificCategory);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -39,10 +39,10 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   // create a new category
+
+  console.log(req.body);
   try {
-    const createCategory = await Category.create({
-      category_name: req.body,
-    });
+    const createCategory = await Category.create(req.body);
     res.status(201).json(createCategory);
   } catch (err) {
     res.status(400).json(err);
@@ -51,34 +51,35 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value
-  try {
-    const updateCategory = await Category.update(req.body, {
-      //Since we are updating this category, we need to find what we are updating specifically!
-      where: {
-        id: req.params.id
-      }
-    });
-    if (!updateCategory[0]) {
-      res.status(404).json({ message: 'Category ID not found!' });
-      return;
-    }
-    res.status(204).json(updateCategory);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+//   {
+//     "id": 1,
+//     "category_name": "Shirts",
+//     "products": [
+//         {
+//             "id": 1,
+//             "product_name": "Plain T-Shirt",
+//             "price": 15,
+//             "stock": 14,
+//             "category_id": 1
+//         }
+//     ]
+// }
+
+let updatedCategory = await Category.update(req.body, {
+  where: {
+    id: req.params.id,
+  },
+});
+res.json(updatedCategory);
 });
 
 router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value
-  try {
-    const deleteData = await Category.destroy({
-      where: {
-        id: req.params.id
-      }
-    });
-    res.status(202).json(deleteData);
-  } catch (err) {
-    res.status(400).json(err);
-  }
+  let deleteCategory = await Category.destroy({
+    where: {
+      id: req.params.id,
+    }
+  });
+  res.json(deleteCategory);
 });
 module.exports = router;
